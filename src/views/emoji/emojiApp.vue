@@ -1,179 +1,188 @@
-<script setup >
-import {nextTick, ref} from "vue";
-import {ElMessage} from "element-plus";
-import {Loading, UploadFilled} from "@element-plus/icons-vue";
-import CropperComponent from "@/components/cropper/cropperComponent.vue";
-// ref
-const cropperComponentRef = ref();
+<script setup>
+import { useRouter } from 'vue-router'
+import { ElLoading } from 'element-plus'
+import 'element-plus/es/components/loading/style/css'
 
+const router = useRouter()
 
-const previewUrl = ref('');
-const originalImage = ref('');
-const base64Image = ref('');
-const gifUrl = ref('');
-const uploading = ref(false);
-// 新增两个响应式数据：delay和width
-const delay = ref(45);
-const rotate = ref(360);
-const selectedSource = ref("");
+const navigateTo = (path) => {
+  const loading = ElLoading.service({
+    lock: true,
+    text: '加载中...',
+    background: 'rgba(0, 0, 0, 0.4)',
+  })
 
-const handleChange = (uploadFile) => {
-  const file = uploadFile.raw;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    originalImage.value = e?.target?.result;
-    // 直接打开裁切对话框
-    if (cropperComponentRef.value?.initCropperComponent) {
-      cropperComponentRef.value.initCropperComponent(originalImage.value)
-    } else {
-      console.warn('init 方法未暴露或组件未加载')
-    }
-  };
-  reader.readAsDataURL(file);
-};
-// 图片裁剪回调
-const cropperComponentSubmit = (res) => {
-  console.log(res)
+  setTimeout(() => {
+    loading.close()
+    router.push(path)
+  }, 600)
 }
-const upload = () => {
-  if (delay.value > 120 || delay.value < 1){
-    ElMessage.error('最低不低于1帧或者超过120帧');
-    return;
-  }
-  if (rotate.value > 360 || rotate.value < 0){
-    ElMessage.error('旋转度数不能超过360度');
-    return;
-  }
-  if (!selectedSource.value){
-    ElMessage.error('请先选择素材来源');
-    return;
-  }
-  uploading.value = true;
-  let params = {
-    base64: base64Image.value,
-    delay: delay.value,
-    selectedSource: selectedSource.value,
-    rotate: rotate.value,
-  };
-  $https('/emoji-app/emoji/uploadEmoji',"post", params,2,1).then(res => {
-    if (res.data.code === 200){
-      gifUrl.value = res.data.data;
-    }else {
-      ElMessage.error(res.data.msg);
-    }
-  }).catch(() => {
-    ElMessage.error('生成失败');
-  }).finally(() => {
-    uploading.value = false;
-  });
-};
 </script>
 
 <template>
-  <el-card>
-    <template #header>
-      <h2 style="text-align: center;">上传头像生成表情包 GIF</h2>
-    </template>
-
-    <el-upload
-        drag
-        accept="image/*"
-        :auto-upload="false"
-        :on-change="handleChange"
+  <div class="page-container">
+    <!-- 顶部导航 -->
+    <el-menu
+        class="navbar"
+        mode="horizontal"
+        background-color="transparent"
+        text-color="#ffffff"
+        active-text-color="#ffd04b"
     >
-      <el-icon style="font-size: 60px; color: #409EFF;">
-        <UploadFilled />
-      </el-icon>
-      <div class="el-upload__text">拖拽或点击上传头像</div>
-    </el-upload>
+      <el-menu-item index="1" @click="navigateTo('/')">首页</el-menu-item>
+      <el-menu-item index="2" @click="navigateTo('/emoji-app/emojiPngToGif')">PNG转GIF</el-menu-item>
+      <el-menu-item index="3" @click="navigateTo('/emoji-app/gifOverlayEditor')">GIF编辑器</el-menu-item>
+      <el-menu-item index="4" @click="navigateTo('/emoji-app/staticGenerator')">静态生成器</el-menu-item>
+    </el-menu>
 
-    <div class="preview" v-if="previewUrl">
-      <div class="preview-container">
-        <div>
-          <h4>头像预览：</h4>
-          <el-image :src="previewUrl" style="width: 150px;height: 150px;border-radius: 50%" />
+    <h1 class="title">🎉 表情工具箱导航页</h1>
+
+    <div class="card-container">
+      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/emojiPngToGif')">
+        <div class="card-content">
+          <div class="icon">🖼️</div>
+          <h2>PNG 生成 GIF</h2>
+          <p>将头像叠加到动态 GIF 上</p>
         </div>
-        <div>
-          <el-button
-              type="primary"
-              size="small"
-              class="crop-btn"
-              @click="openCropDialog"
-              :disabled="!originalImage"
-          >
-            重新裁切
-          </el-button>
+      </el-card>
+
+      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/gifOverlayEditor')">
+        <div class="card-content">
+          <div class="icon">🎞️</div>
+          <h2>GIF 叠加编辑器</h2>
+          <p>图层拖拽+实时预览</p>
         </div>
-      </div>
-    </div>
+      </el-card>
 
-    <!-- 新增输入项 -->
-    <div  v-if="previewUrl">
-      <div>
-        <el-form-item label="GIF帧(真FPS数,帧数过少会卡顿,过多会出现异常(推荐30-60)">
-          <el-input-number
-              v-model="delay"
-              :min="1"
-              :max="120"
-              :step="10"
-              placeholder="填写1-120帧以内,推荐30-60帧,45帧满足gif流畅"
-              controls-position="right"
-              :precision="0"
-              style="width: 100%;"
-          />
-        </el-form-item>
-      </div>
-      <div>
-        <el-form-item label="旋转度数(0-360)">
-          <el-input-number
-              v-model="rotate"
-              :min="1"
-              :max="360"
-              :step="10"
-              placeholder="0-360"
-              controls-position="right"
-              :precision="0"
-              style="width: 100%;"
-          />
-        </el-form-item>
-      </div>
+      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/staticGenerator')">
+        <div class="card-content">
+          <div class="icon">📷</div>
+          <h2>静态表情生成</h2>
+          <p>快速生成 PNG 表情</p>
+        </div>
+      </el-card>
     </div>
-    <div style="text-align: center; margin-bottom: 20px;">
-      <el-form-item label="请选择素材来源:">
-        <el-select
-            v-model="selectedSource"
-            placeholder="请选择素材来源"
-            style="width: 200px"
-        >
-          <el-option label="左右猫猫图素材" value="2.gif" key="2.gif"></el-option>
-          <el-option label="雷劈猫猫图素材" value="3.gif" key="3.gif"></el-option>
-          <el-option label="急急猫猫图素材" value="4.gif" key="4.gif"></el-option>
-          <el-option label="摸头猫猫图素材" value="5.gif" key="5.gif"></el-option>
-          <el-option label="跳跳猫猫图素材" value="6.gif" key="6.gif"></el-option>
-          <el-option label="骑车猫猫图素材" value="7.gif" key="7.gif"></el-option>
-          <!-- 可根据需要扩展 -->
-        </el-select>
-      </el-form-item>
-    </div>
-    <div style="text-align: center; margin-top: 20px;">
-      <el-button
-          type="primary"
-          :disabled="!base64Image"
-          :loading="uploading"
-          @click="upload"
-      >
-        生成 GIF 表情包
-      </el-button>
-    </div>
-
-    <div class="result" v-if="gifUrl">
-      <h4>生成的表情包 GIF：</h4>
-      <el-image :src="gifUrl" />
-    </div>
-  </el-card>
-  <cropperComponent ref="cropperComponentRef" @submit="cropperComponentSubmit"></cropperComponent>
+  </div>
 </template>
 
 <style scoped>
+/* 页面背景 */
+.page-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2c3e50, #4ca1af);
+  padding: 4rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+/* 顶部导航栏 */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  border: none;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 标题 */
+.title {
+  margin-top: 6rem;
+  font-size: 3rem;
+  background: linear-gradient(90deg, #ffffff, #ffd04b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* 卡片容器 */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* 卡片玻璃风格 + 动画 */
+.glass-card {
+  width: 280px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeInScale 0.6s ease;
+  cursor: pointer;
+}
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* 卡片内容 */
+.card-content {
+  padding: 1.2rem;
+  color: white;
+  text-align: center;
+}
+.card-content .icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.card-content h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+}
+.card-content p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* 动画效果 */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .title {
+    font-size: 8vw;
+    margin-top: 7rem;
+  }
+
+  .glass-card {
+    width: 90%;
+    height: auto;
+  }
+
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .card-content p {
+    font-size: 0.95rem;
+  }
+}
 </style>
