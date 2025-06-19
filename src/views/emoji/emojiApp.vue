@@ -47,7 +47,7 @@ const navigateTo = (path) => {
 
     <!-- 卡片区域 -->
     <div class="card-container">
-      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/emojiPngToGif')">
+      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/gifOverlay/emojiPngToGif')">
         <div class="card-content">
           <div class="icon">🧸🎨</div>
           <h2>PNG 生成 GIF</h2>

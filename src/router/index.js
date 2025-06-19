@@ -15,9 +15,9 @@ const router = createRouter({
       component: () => import('@/views/emoji/emojiApp.vue'),
     },
     {
-      path: '/emoji-app/emojiPngToGif',
-      name: '/emoji-app/emojiPngToGif',
-      component: () => import('@/views/emoji/emojiPngToGif.vue'),
+      path: '/emoji-app/gifOverlay/emojiPngToGif',
+      name: '/emoji-app/gifOverlay/emojiPngToGif',
+      component: () => import('@/views/emoji/gifOverlay/emojiPngToGif.vue'),
     },
     {
       path: '/emoji-app/gifOverlay/gifOverlayList',
