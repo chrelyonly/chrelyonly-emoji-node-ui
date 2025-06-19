@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import {ElLoading, ElMessage} from 'element-plus'
-import { useRoute } from 'vue-router'
-const router = useRoute()
+import { useRoute,useRouter } from 'vue-router'
+const route = useRoute()
+const router = useRouter()
 const data = ref({
   autoForm: [],
   id:"",
@@ -42,7 +43,7 @@ const generate = () => {
   })
 }
 onMounted(()=>{
-  const id = router.query.id
+  const id = route.query.id
   console.log("收到的 ID:", id)
   init(id)
 })
@@ -104,7 +105,7 @@ const init = (id) => {
           </el-form-item>
         </el-form>
         <!-- 生成好的 GIF -->
-        <div class="gif-container" v-if="gifData">
+        <div class="gif-container"  v-if="gifData">
           <el-image :src="gifData" alt="GIF" style="display:inline;" />
         </div>
       </el-card>
@@ -124,7 +125,7 @@ const init = (id) => {
 
 .gif-container {
   width: 300px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem;
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 12px 24px rgba(255, 182, 193, 0.4);
