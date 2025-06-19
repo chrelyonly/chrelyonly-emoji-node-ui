@@ -12,10 +12,13 @@ app.use(createPinia())
 app.use(router)
 import "@/config/dateConfig.js"
 import "@/util/https.js"
+import "@/util/myLoading.js"
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 // 如果您正在使用CDN引入，请删除下面一行。
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import myLoading from "@/util/myLoading.js";
+app.use(myLoading)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }

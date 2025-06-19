@@ -3,21 +3,43 @@ import {onMounted, ref} from 'vue'
 import {ElLoading, ElMessage} from 'element-plus'
 import { useRoute } from 'vue-router'
 const router = useRoute()
-const line1 = ref('')
-const line2 = ref('')
-const line3 = ref('')
 const data = ref({
-  autoForm: []
+  autoForm: [],
+  id:"",
 })
+// 速度
+const delay = ref(60)
+// 旋转角度
+const rotate = ref(0)
+// 生成好的图片
+const gifData = ref("")
 
 const generate = () => {
-  if (!line1.value && !line2.value && !line3.value) {
-    ElMessage.warning('请至少填写一句话内容')
-    return
+  $myLoading.open("生成中...")
+  const text = []
+  for (const item of data.value.autoForm) {
+    if (item.value) {
+      text.push(item.value)
+    }
   }
-
-  // 调用生成函数或后端接口
-  ElMessage.success('表情包生成成功！')
+  let params = {
+    id: data.value.id,
+    text: text.join(","),
+    delay: delay.value,
+    rotate: rotate.value,
+  }
+  $https("/emoji-api/emoji-text-gif-make","post",params,2,{}).then(res => {
+    if (res.data.code == 200) {
+      gifData.value = res.data.data
+      // 调用生成函数或后端接口
+      ElMessage.success('表情包生成成功！')
+    }else {
+      // 调用生成函数或后端接口
+      ElMessage.success(res.data.msg)
+    }
+  }).finally(() => {
+    $myLoading.close()
+  })
 }
 onMounted(()=>{
   const id = router.query.id
@@ -56,26 +78,36 @@ const init = (id) => {
 
 <template>
   <div class="page-wrapper">
-    <div>
-      <h2 class="form-title">{{ data.name }}</h2>
-    </div>
-    <!-- 顶部 GIF -->
-    <div class="gif-container">
-      <el-image :src="data.url" alt="预览GIF" style="display:inline;" />
-    </div>
+      <div>
+        <h2 class="form-title">{{ data.name }}</h2>
+      </div>
+      <!-- 顶部 GIF -->
+      <div class="gif-container">
+        <el-image :src="data.url" alt="预览GIF" style="display:inline;" />
+      </div>
 
-    <!-- 表单区域 -->
-    <el-card class="form-card" shadow="always">
-      <h2 class="form-title">编辑表情包文字</h2>
-      <el-form label-position="top" class="text-form">
-        <el-form-item :label="item.name" v-for="(item,index) in data.autoForm" :key="index">
-          <el-input v-model="item.value" :placeholder="item.name"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="generate" size="large">生成表情包</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+      <!-- 表单区域 -->
+      <el-card class="form-card" shadow="always">
+        <h2 class="form-title">编辑表情包文字</h2>
+        <el-form label-position="top" class="text-form">
+          <el-form-item :label="item.name" v-for="(item,index) in data.autoForm" :key="index">
+            <el-input v-model="item.value" :placeholder="item.name"></el-input>
+          </el-form-item>
+          <el-form-item label="帧数(速度)" >
+            <el-input v-model="delay" placeholder="30-90"></el-input>
+          </el-form-item>
+          <el-form-item label="旋转角度" >
+            <el-input v-model="rotate" placeholder="0-360"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="generate" size="large">生成表情包</el-button>
+          </el-form-item>
+        </el-form>
+        <!-- 生成好的 GIF -->
+        <div class="gif-container">
+          <el-image :src="gifData" alt="GIF" style="display:inline;" />
+        </div>
+      </el-card>
   </div>
 </template>
 
