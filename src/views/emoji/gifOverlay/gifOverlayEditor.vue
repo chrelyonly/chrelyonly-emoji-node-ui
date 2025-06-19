@@ -104,7 +104,7 @@ const init = (id) => {
           </el-form-item>
         </el-form>
         <!-- 生成好的 GIF -->
-        <div class="gif-container">
+        <div class="gif-container" v-if="gifData">
           <el-image :src="gifData" alt="GIF" style="display:inline;" />
         </div>
       </el-card>
