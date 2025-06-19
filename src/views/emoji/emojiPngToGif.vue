@@ -219,19 +219,72 @@ const upload = () => {
   <cropperComponent ref="cropperComponentRef" @crop-finish="cropperComponentSubmit" />
 </template>
 <style scoped>
+.el-card {
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(255, 182, 193, 0.3);
+  font-family: 'ZCOOL KuaiLe', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+h2,
+h4 {
+  color: #5a3e66;
+  font-family: 'ZCOOL KuaiLe', 'PingFang SC';
+}
+
+.el-upload__text {
+  font-size: 1.1rem;
+  color: #5a3e66;
+  font-family: 'ZCOOL KuaiLe';
+}
+
+.preview-container h4 {
+  margin: 16px 0 12px;
+  font-size: 1.1rem;
+  text-align: center;
+  color: #5a3e66;
+}
+
 .avatar-wrapper {
-  border: 2px solid transparent;
   border-radius: 50%;
   padding: 4px;
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 0 6px rgba(255, 182, 193, 0.3);
 }
 .avatar-wrapper:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 192, 203, 0.5);
 }
 .avatar-wrapper.selected {
-  border-color: #409EFF;
-  box-shadow: 0 0 10px rgba(64, 158, 255, 0.6);
-  transform: scale(1.1);
+  border-color: #ff66a1;
+  box-shadow: 0 0 12px rgba(255, 105, 180, 0.6);
+  transform: scale(1.12);
+}
+
+.el-form-item__label {
+  font-weight: bold;
+  color: #5a3e66;
+  font-size: 1rem;
+}
+
+.el-input-number {
+  border-radius: 8px;
+}
+
+.el-select {
+  font-family: 'ZCOOL KuaiLe';
+}
+
+.el-button {
+  border-radius: 12px;
+  font-size: 1rem;
+  padding: 10px 20px;
+}
+
+.result h4 {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #5a3e66;
 }
 </style>

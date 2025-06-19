@@ -54,42 +54,72 @@ const generate = () => {
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  background: linear-gradient(to right bottom, #f2f9ff, #d6ecf5);
   min-height: 100vh;
+  background: linear-gradient(to bottom right, #f8d0e3, #c6e5f9);
+  font-family: 'ZCOOL KuaiLe', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 .gif-container {
-  width: 320px;
-  height: auto;
+  width: 300px;
   margin-bottom: 2rem;
-  border-radius: 16px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 24px rgba(255, 182, 193, 0.4);
 }
 .gif-container img {
   width: 100%;
   display: block;
+  border-radius: 24px;
 }
 
 .form-card {
   width: 100%;
-  max-width: 500px;
-  background: #ffffffd6;
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 36px rgba(255, 182, 193, 0.3);
   padding: 2rem;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  font-family: 'ZCOOL KuaiLe', 'PingFang SC';
 }
 
 .form-title {
   text-align: center;
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-  color: #333;
+  font-size: 1.8rem;
+  color: #5a3e66;
+  margin-bottom: 1.8rem;
 }
 
-.text-form :deep(.el-input) {
+.text-form :deep(.el-form-item__label) {
+  color: #5a3e66;
+  font-weight: bold;
   font-size: 1rem;
+  margin-bottom: 6px;
+}
+.text-form :deep(.el-input__wrapper) {
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px #f5c2e7 inset;
+  background-color: #fff;
+}
+.text-form :deep(.el-input__inner) {
+  font-size: 1.05rem;
+  font-family: 'ZCOOL KuaiLe';
+  color: #5a3e66;
+}
+
+.el-button {
+  background: linear-gradient(to right, #ff9ec4, #ff66a1);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: bold;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-family: 'ZCOOL KuaiLe';
+  transition: all 0.3s ease;
+}
+.el-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(255, 105, 180, 0.4);
 }
 </style>
