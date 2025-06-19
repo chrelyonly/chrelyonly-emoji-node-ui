@@ -30,7 +30,7 @@ const generate = () => {
     rotate: rotate.value,
   }
   $https("/emoji-api/emoji-text-gif-make","post",params,2,{}).then(res => {
-    if (res.data.code == 200) {
+    if (res.data.code === 200) {
       gifData.value = res.data.data
       // 调用生成函数或后端接口
       ElMessage.success('表情包生成成功！')
