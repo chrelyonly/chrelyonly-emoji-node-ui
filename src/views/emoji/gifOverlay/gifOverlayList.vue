@@ -52,7 +52,7 @@ const toDetail = (item) => {
     <h3 class="emoji-title">🎀 可爱表情包展示区 🎀</h3>
     <div class="emoji-row">
       <div class="emoji-card" v-for="(item, index) in data" :key="index" @click="toDetail(item)">
-        <el-image :src="item.url" class="emoji-img" />
+        <el-image :src="item.outUrl" class="emoji-img" />
         <div class="emoji-text">{{ item.name }}</div>
       </div>
     </div>

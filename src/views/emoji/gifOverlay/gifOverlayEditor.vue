@@ -84,7 +84,7 @@ const init = (id) => {
       </div>
       <!-- 顶部 GIF -->
       <div class="gif-container">
-        <el-image :src="data.url" alt="预览GIF" style="display:inline;" />
+        <el-image :src="data.outUrl" alt="预览GIF" style="display:inline;" />
       </div>
 
       <!-- 表单区域 -->
