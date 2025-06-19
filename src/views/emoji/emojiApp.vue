@@ -37,9 +37,8 @@ const navigateTo = (path) => {
         active-text-color="#ffd04b"
     >
       <el-menu-item index="1" @click="navigateTo('/')">首页</el-menu-item>
-      <el-menu-item index="2" @click="navigateTo('/emoji-app/emojiPngToGif')">PNG转GIF</el-menu-item>
-      <el-menu-item index="3" @click="navigateTo('/emoji-app/gifOverlayEditor')">GIF编辑器</el-menu-item>
-      <el-menu-item index="4" @click="navigateTo('/emoji-app/staticGenerator')">静态生成器</el-menu-item>
+      <el-menu-item index="2" @click="navigateTo('/gifOverlay/emojiPngToGif')">PNG 生成 GIF</el-menu-item>
+      <el-menu-item index="3" @click="navigateTo('/gifOverlay/gifOverlayList')">表情包列表</el-menu-item>
     </el-menu>
 
     <!-- 页面标题 -->
@@ -47,7 +46,7 @@ const navigateTo = (path) => {
 
     <!-- 卡片区域 -->
     <div class="card-container">
-      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/gifOverlay/emojiPngToGif')">
+      <el-card class="glass-card" shadow="hover" @click="navigateTo('/gifOverlay/emojiPngToGif')">
         <div class="card-content">
           <div class="icon">🧸🎨</div>
           <h2>PNG 生成 GIF</h2>
@@ -55,7 +54,7 @@ const navigateTo = (path) => {
         </div>
       </el-card>
 
-      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/gifOverlay/gifOverlayList')">
+      <el-card class="glass-card" shadow="hover" @click="navigateTo('/gifOverlay/gifOverlayList')">
         <div class="card-content">
           <div class="icon">📽️🎉</div>
           <h2>表情包列表</h2>
@@ -63,7 +62,7 @@ const navigateTo = (path) => {
         </div>
       </el-card>
 
-<!--      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/staticGenerator')">-->
+<!--      <el-card class="glass-card" shadow="hover" @click="navigateTo('/staticGenerator')">-->
 <!--        <div class="card-content">-->
 <!--          <div class="icon">🪄📷</div>-->
 <!--          <h2>静态表情生成</h2>-->

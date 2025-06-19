@@ -4,29 +4,29 @@ import HomeView from '../views/HomeView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'home',
+    //   component: HomeView,
+    // },
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
-    },
-    {
-      path: '/emoji-app',
-      name: '/emoji-app',
+      name: '/',
       component: () => import('@/views/emoji/emojiApp.vue'),
     },
     {
-      path: '/emoji-app/gifOverlay/emojiPngToGif',
-      name: '/emoji-app/gifOverlay/emojiPngToGif',
+      path: '/gifOverlay/emojiPngToGif',
+      name: '/gifOverlay/emojiPngToGif',
       component: () => import('@/views/emoji/gifOverlay/emojiPngToGif.vue'),
     },
     {
-      path: '/emoji-app/gifOverlay/gifOverlayList',
-      name: '/emoji-app/gifOverlay/gifOverlayList',
+      path: '/gifOverlay/gifOverlayList',
+      name: '/gifOverlay/gifOverlayList',
       component: () => import('@/views/emoji/gifOverlay/gifOverlayList.vue'),
     },
     {
-      path: '/emoji-app/gifOverlay/gifOverlayEditor',
-      name: '/emoji-app/gifOverlay/gifOverlayEditor',
+      path: '/gifOverlay/gifOverlayEditor',
+      name: '/gifOverlay/gifOverlayEditor',
       component: () => import('@/views/emoji/gifOverlay/gifOverlayEditor.vue'),
     },
   ],

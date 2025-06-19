@@ -66,7 +66,7 @@ const init = (id) => {
       setTimeout(() => {
         router.push(
             {
-              path: "/emoji-app/gifOverlay/gifOverlayList",
+              path: "/gifOverlay/gifOverlayList",
             }
         )
       }, 200)

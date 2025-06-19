@@ -37,7 +37,7 @@ const toDetail = (item) => {
     loading.close()
     router.push(
         {
-          path: "/emoji-app/gifOverlay/gifOverlayEditor",
+          path: "/gifOverlay/gifOverlayEditor",
           query: {
             id: item.id
           }

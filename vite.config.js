@@ -12,6 +12,7 @@ export default defineConfig({
     vueJsx(),
     vueDevTools(),
   ],
+  base: '/emoji-app',
   server: {
     proxy: {
       '/api/': {
