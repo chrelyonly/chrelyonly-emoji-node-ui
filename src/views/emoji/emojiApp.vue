@@ -55,10 +55,10 @@ const navigateTo = (path) => {
         </div>
       </el-card>
 
-      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/gifOverlayEditor')">
+      <el-card class="glass-card" shadow="hover" @click="navigateTo('/emoji-app/gifOverlay/gifOverlayList')">
         <div class="card-content">
           <div class="icon">📽️🎉</div>
-          <h2>文字 生成 GIF</h2>
+          <h2>表情包列表</h2>
           <p>文字内容叠加 GIF 上</p>
         </div>
       </el-card>

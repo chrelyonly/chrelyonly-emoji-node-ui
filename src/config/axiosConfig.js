@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {prefixUrl} from "@/config/myConfig.js";
 
 /**
  * 创建一个新的 Axios 实例
@@ -25,6 +26,7 @@ const createAxiosInstance = (config = {}) => {
         timeout: 30000, // 请求超时时间
         validateStatus: status => status >= 200 && status <= 500, // 默认的状态码验证
         withCredentials: true, // 允许跨域携带凭证
+        baseURL: prefixUrl,
     };
 
     // 合并默认配置与传入配置
