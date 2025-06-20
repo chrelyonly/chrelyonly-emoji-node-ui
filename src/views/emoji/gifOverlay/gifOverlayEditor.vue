@@ -109,7 +109,9 @@ const init = (id) => {
           <el-image :src="gifData" alt="GIF" style="display:inline;" />
         </div>
         <div style="text-align: center; margin-top: 10px;">
-          <el-button type="primary" :href="gifData" download="表情包.gif">下载 GIF</el-button>
+          <a :href="gifData" :download="'表情包.gif'">
+            <el-button type="primary">下载 GIF</el-button>
+          </a>
         </div>
       </el-card>
   </div>
