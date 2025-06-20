@@ -43,7 +43,15 @@ const navigateTo = (path) => {
 
     <!-- 页面标题 -->
     <h1 class="title">🎀 表情工具箱导航页 🎀</h1>
-
+    <!-- 公告栏 -->
+    <div class="announcement">
+      <p>📢 <strong>公告：</strong></p>
+      <ul>
+        <li>👥 客户交流群：vx: WhoAmI1172576293</li>
+        <li>💬 客户支持：请联系 <strong>（微信号：WhoAmI1172576293）</strong></li>
+        <li>🌸 新客户欢迎！欢迎咨询定制服务与开发合作～</li>
+      </ul>
+    </div>
     <!-- 卡片区域 -->
     <div class="card-container">
       <el-card class="glass-card" shadow="hover" @click="navigateTo('/gifOverlay/emojiPngToGif')">
