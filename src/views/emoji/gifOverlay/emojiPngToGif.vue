@@ -210,7 +210,9 @@ const upload = () => {
       <h4>生成的表情包 GIF：</h4>
       <el-image :src="gifUrl" style="width: 150px; display: block; margin: 0 auto;box-shadow: 0 0 10px rgba(64, 158, 255, 0.6);" />
       <div style="text-align: center; margin-top: 10px;">
-        <el-button type="primary" :href="gifUrl" download="表情包.gif">下载 GIF</el-button>
+        <a :href="gifUrl" :download="'表情包.gif'">
+          <el-button type="primary">下载 GIF</el-button>
+        </a>
       </div>
     </div>
   </el-card>
