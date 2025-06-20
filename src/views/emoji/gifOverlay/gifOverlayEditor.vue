@@ -108,6 +108,9 @@ const init = (id) => {
         <div class="gif-container"  v-if="gifData">
           <el-image :src="gifData" alt="GIF" style="display:inline;" />
         </div>
+        <div style="text-align: center; margin-top: 10px;">
+          <el-button type="primary" :href="gifData" download="表情包.gif">下载 GIF</el-button>
+        </div>
       </el-card>
   </div>
 </template>
