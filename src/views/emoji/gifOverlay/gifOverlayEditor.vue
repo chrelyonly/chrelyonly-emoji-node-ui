@@ -12,6 +12,10 @@ const data = ref({
 const delay = ref(60)
 // 旋转角度
 const rotate = ref(0)
+// 字体大小
+const fontSize = ref(15)
+// 缩放比例
+const scaling = ref(100)
 // 生成好的图片
 const gifData = ref("")
 
@@ -28,6 +32,8 @@ const generate = () => {
     text: text.join(","),
     delay: delay.value,
     rotate: rotate.value,
+    fontSize: fontSize.value,
+    scaling: scaling.value,
   }
   $https("/emoji-api/emoji-text-gif-make","post",params,2,{}).then(res => {
     if (res.data.code === 200) {
@@ -99,6 +105,12 @@ const init = (id) => {
           </el-form-item>
           <el-form-item label="旋转角度" >
             <el-input v-model="rotate" placeholder="0-360"></el-input>
+          </el-form-item>
+          <el-form-item label="字体大小" >
+            <el-input-number v-model="fontSize" placeholder="15"></el-input-number>
+          </el-form-item>
+          <el-form-item label="缩放比例100%(无效,有点bug)" >
+            <el-input-number v-model="scaling" placeholder="100%"></el-input-number>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="generate" size="large">生成表情包</el-button>

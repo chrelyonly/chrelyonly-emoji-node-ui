@@ -23,7 +23,7 @@ import {prefixUrl} from "@/config/myConfig.js";
  */
 const createAxiosInstance = (config = {}) => {
     const defaultConfig = {
-        timeout: 30000, // 请求超时时间
+        timeout: 60000, // 请求超时时间
         validateStatus: status => status >= 200 && status <= 500, // 默认的状态码验证
         withCredentials: true, // 允许跨域携带凭证
         baseURL: prefixUrl,
