@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { ElMessage } from "element-plus";
+import ElementPlus, { ElMessage } from "element-plus";
 import { UploadFilled } from "@element-plus/icons-vue";
 import CropperComponent from "@/components/cropper/cropperComponent.vue";
 import { cacheUtil } from "@/util/cacheUtil.js";
@@ -11,13 +11,13 @@ const cropperComponentRef = ref();
 // 响应式变量
 const previewUrl = ref([]);            // 用于展示预览头像列表
 const originalImage = ref('');         // 原始上传图像 base64
-const base64Image = ref('');           // 当前选中的头像 base64
+const base64Image = ref();           // 当前选中的头像 base64
 const gifUrl = ref('');                // 最终生成的 GIF 链接
 const uploading = ref(false);          // 是否正在上传生成 GIF
 const delay = ref(45);                 // GIF 帧延迟（速度）
 const rotate = ref(360);               // 旋转角度
 const selectedSource = ref("");        // 用户选择的表情包素材来源
-const selectedIndex = ref(-1);         // 当前选中头像的下标
+const selectedIndex = ref([]);         // 当前选中头像的下标
 
 // 页面加载时尝试读取本地缓存头像（最多保存10个）
 onMounted(() => {
@@ -44,8 +44,43 @@ const handleChange = (uploadFile) => {
 
 // 用户点击某个预览头像，设置为当前选中头像
 const selectAvatar = (index) => {
-  selectedIndex.value = index;
-  base64Image.value = previewUrl.value[index];
+  // selectedIndex.value = index;
+  // base64Image.value = previewUrl.value[index];
+
+  const i = selectedIndex.value.indexOf(index);
+  if (i === -1) {
+    // 选中时判断数量
+    if (selectedIndex.value.length >= 2) {
+      // 超过最大选中数，提示或直接return
+      ElMessage.warning('最多只能选择2个头像');
+      return;
+    }
+    // 没有选中过，加入选中列表
+    selectedIndex.value.push(index);
+  } else {
+    // 已选中过，取消选中
+    selectedIndex.value.splice(i, 1);
+  }
+  if (selectedIndex.value.length === 1) {
+    base64Image.value = previewUrl.value[selectedIndex.value[0]];
+  } else if (selectedIndex.value.length > 1) {
+    base64Image.value = selectedIndex.value.map(idx => previewUrl.value[idx]);
+  } else {
+    base64Image.value = null; // 或空数组 [], 根据你业务决定
+  }
+
+  // 更新 base64Images 数组，映射所有选中头像的 base64
+  // base64Image.value = selectedIndex.value.map(idx => previewUrl.value[idx]);
+  // // 如果没有选中，清空数组
+  // if (base64Image.value.length === 0) {
+  //   base64Image.value = [];
+  // }
+  // // 你可以根据业务需要，更新展示的图片，比如取第一个选中头像的base64：
+  // if (selectedIndex.value.length > 0) {
+  //   base64Image.value = previewUrl.value[selectedIndex.value[0]];
+  // } else {
+  //   base64Image.value = null; // 或默认图
+  // }
 };
 
 // 裁剪完成后回调，保存裁剪结果并更新预览与缓存
@@ -139,9 +174,10 @@ const upload = () => {
               v-for="(item, index) in previewUrl"
               :key="index"
               class="avatar-wrapper"
-              :class="{ selected: index === selectedIndex }"
+              :class="{ selected: selectedIndex.includes(index)}"
               @click="selectAvatar(index)"
           >
+<!--            :class="{ selected: index === selectedIndex }"-->
             <el-image :src="item" style="width: 100px; height: 100px; border-radius: 50%;" />
           </div>
         </div>
@@ -189,7 +225,7 @@ const upload = () => {
           <el-option label="摸头猫猫图素材" value="5.gif" />
           <el-option label="跳跳猫猫图素材" value="6.gif" />
           <el-option label="骑车猫猫图素材" value="7.gif" />
-          <el-option label="猫猫艹图素材" value="10.gif" />
+          <el-option label="猫猫艹图素材(需要选2个图片)" value="10.gif" />
           <el-option label="床上导图素材" value="11.gif" />
           <el-option label="哆啦A梦导图素材" value="12.gif" />
         </el-select>
