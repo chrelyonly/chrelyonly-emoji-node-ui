@@ -168,7 +168,7 @@ const upload = () => {
     </el-upload>
     <div class="preview" v-if="previewUrl && previewUrl.length">
       <div class="preview-container">
-        <h4>头像预览（点击选择使用的头像,有历史缓存）：</h4>
+        <h4>头像预览（点击选择使用的头像,有历史缓存）(一般只选一个图片,这里没做多图校验,从根目录接口处请求)：</h4>
         <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 0 0 20px 0">
           <div
               v-for="(item, index) in previewUrl"
