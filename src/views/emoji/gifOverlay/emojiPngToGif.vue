@@ -189,6 +189,9 @@ const upload = () => {
           <el-option label="摸头猫猫图素材" value="5.gif" />
           <el-option label="跳跳猫猫图素材" value="6.gif" />
           <el-option label="骑车猫猫图素材" value="7.gif" />
+          <el-option label="猫猫艹图素材" value="10.gif" />
+          <el-option label="床上导图素材" value="11.gif" />
+          <el-option label="哆啦A梦导图素材" value="12.gif" />
         </el-select>
       </el-form-item>
     </div>
