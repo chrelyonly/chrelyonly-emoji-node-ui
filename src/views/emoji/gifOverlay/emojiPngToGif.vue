@@ -135,6 +135,7 @@ const upload = () => {
 
   // 发起上传请求
   $https('/emoji-api/emoji-png-gif-make', "post", params, 2, {}).then(res => {
+    // $https('/emoji-app-api/emoji/uploadEmoji', "post", params, 2, {}).then(res => {
     if (res.data.code === 200) {
       gifUrl.value = res.data.data;  // 成功生成 gif，保存链接
     } else {
@@ -230,6 +231,7 @@ const upload = () => {
           <el-option label="哆啦A梦导图素材" value="12.gif" />
           <el-option label="叉出去图素材" value="13.gif" />
           <el-option label="四面八方**素材" value="14.gif"></el-option>
+          <el-option label="走过来踢**素材" value="15.gif"></el-option>
         </el-select>
       </el-form-item>
     </div>
