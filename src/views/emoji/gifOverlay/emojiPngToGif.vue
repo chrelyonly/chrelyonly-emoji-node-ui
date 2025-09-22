@@ -50,9 +50,9 @@ const selectAvatar = (index) => {
   const i = selectedIndex.value.indexOf(index);
   if (i === -1) {
     // 选中时判断数量
-    if (selectedIndex.value.length >= 2) {
+    if (selectedIndex.value.length >= 3) {
       // 超过最大选中数，提示或直接return
-      ElMessage.warning('最多只能选择2个头像');
+      ElMessage.warning('最多只能选择3个头像');
       return;
     }
     // 没有选中过，加入选中列表
@@ -134,8 +134,8 @@ const upload = () => {
   };
 
   // 发起上传请求
-  $https('/emoji-api/emoji-png-gif-make', "post", params, 2, {}).then(res => {
-    // $https('/emoji-app-api/emoji/uploadEmoji', "post", params, 2, {}).then(res => {
+  // $https('/emoji-api/emoji-png-gif-make', "post", params, 2, {}).then(res => {
+    $https('/emoji-app-api/emoji/uploadEmoji', "post", params, 2, {}).then(res => {
     if (res.data.code === 200) {
       gifUrl.value = res.data.data;  // 成功生成 gif，保存链接
     } else {
@@ -230,8 +230,9 @@ const upload = () => {
           <el-option label="床上导图素材" value="11.gif" />
           <el-option label="哆啦A梦导图素材" value="12.gif" />
           <el-option label="叉出去图素材" value="13.gif" />
-          <el-option label="四面八方**素材" value="14.gif"></el-option>
-          <el-option label="走过来踢**素材" value="15.gif"></el-option>
+          <el-option label="四面八方**素材(2个图片)" value="14.gif"></el-option>
+          <el-option label="走过来踢**素材(2个图片)" value="15.gif"></el-option>
+          <el-option label="三人行必有**素材(3个图片)" value="16.gif"></el-option>
         </el-select>
       </el-form-item>
     </div>
