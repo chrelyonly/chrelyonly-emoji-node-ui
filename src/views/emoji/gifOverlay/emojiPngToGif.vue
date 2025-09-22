@@ -134,8 +134,8 @@ const upload = () => {
   };
 
   // 发起上传请求
-  // $https('/emoji-api/emoji-png-gif-make', "post", params, 2, {}).then(res => {
-    $https('/emoji-app-api/emoji/uploadEmoji', "post", params, 2, {}).then(res => {
+  $https('/emoji-api/emoji-png-gif-make', "post", params, 2, {}).then(res => {
+    // $https('/emoji-app-api/emoji/uploadEmoji', "post", params, 2, {}).then(res => {
     if (res.data.code === 200) {
       gifUrl.value = res.data.data;  // 成功生成 gif，保存链接
     } else {
