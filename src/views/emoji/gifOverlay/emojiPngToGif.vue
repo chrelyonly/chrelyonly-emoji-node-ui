@@ -233,6 +233,7 @@ const upload = () => {
           <el-option label="四面八方**素材(2个图片)" value="14.gif"></el-option>
           <el-option label="走过来踢**素材(2个图片)" value="15.gif"></el-option>
           <el-option label="三人行必有**素材(3个图片)" value="16.gif"></el-option>
+          <el-option label="抽打小学生素材(2个图片)" value="17.gif"></el-option>
         </el-select>
       </el-form-item>
     </div>
