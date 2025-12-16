@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('@/views/emoji/gifOverlay/emojiPngToGif.vue'),
     },
     {
+      path: '/christmas/christmas',
+      name: '/christmas/christmas',
+      component: () => import('@/views/emoji/christmas/christmas.vue'),
+    },
+    {
       path: '/gifOverlay/gifOverlayList',
       name: '/gifOverlay/gifOverlayList',
       component: () => import('@/views/emoji/gifOverlay/gifOverlayList.vue'),

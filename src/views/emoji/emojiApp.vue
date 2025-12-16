@@ -38,6 +38,7 @@ const navigateTo = (path) => {
     >
       <el-menu-item index="1" @click="navigateTo('/')">首页</el-menu-item>
       <el-menu-item index="2" @click="navigateTo('/gifOverlay/emojiPngToGif')">PNG 生成 GIF</el-menu-item>
+      <el-menu-item index="2" @click="navigateTo('/christmas/christmas')">圣诞帽</el-menu-item>
       <el-menu-item index="3" @click="navigateTo('/gifOverlay/gifOverlayList')">表情包列表</el-menu-item>
     </el-menu>
 
@@ -59,6 +60,13 @@ const navigateTo = (path) => {
           <div class="icon">🧸🎨</div>
           <h2>PNG 生成 GIF</h2>
           <p>将头像叠加到动态 GIF 上</p>
+        </div>
+      </el-card>
+      <el-card class="glass-card" shadow="hover" @click="navigateTo('/christmas/christmas')">
+        <div class="card-content">
+          <div class="icon">💌💟</div>
+          <h2>PNG 生成 PNG</h2>
+          <p>PS合成</p>
         </div>
       </el-card>
 
