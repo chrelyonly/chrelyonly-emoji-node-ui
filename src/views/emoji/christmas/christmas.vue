@@ -218,7 +218,7 @@ function uploadImage(e) {
         x: 0,
         y: 0,
         w: 600,
-        h: 400,
+        h: 600,
         rotate: 0,
         locked: true
       })
@@ -500,7 +500,7 @@ function clearCanvas() {
 
     <div class="content">
       <div class="canvas-wrapper">
-        <canvas ref="canvasRef" width="600" height="400" />
+        <canvas ref="canvasRef" width="600" height="600" />
         <div class="tips">
           💡 提示：拖拽移动 | 顶部圆点旋转 | 四角缩放 | 方向键微调 | Delete删除
         </div>
