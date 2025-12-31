@@ -98,7 +98,7 @@ const cropperComponentSubmit = (res) => {
 
   // 如果超过10个头像，删除最早的一个
   if (cachedAvatarImageList.length > 10) {
-    cachedAvatarImageList.shift();
+    cachedAvatarImageList = cachedAvatarImageList.slice(-10);
   }
 
   // 更新预览和缓存
