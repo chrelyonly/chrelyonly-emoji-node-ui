@@ -106,6 +106,81 @@ const cropperComponentSubmit = (res) => {
   cacheUtil.setCache('cachedAvatarImage', cachedAvatarImageList);
 };
 
+
+/**
+ * 复制图片（包括 GIF、PNG、JPG、WebP 等）到剪贴板
+ * 自动兼容旧浏览器（execCommand）
+ */
+const copyImage = async (data = "") => {
+  let base64Data;
+    base64Data = data;
+  if (!base64Data) {
+    ElMessage.warning("图片数据为空");
+    return;
+  }
+
+  try {
+    // 优先使用 Clipboard API（现代浏览器）
+    if (navigator.clipboard && window.ClipboardItem) {
+      const mimeType = base64Data.match(/^data:(.*?);base64,/)[1];
+      const byteString = atob(base64Data.split(",")[1]);
+      const arrayBuffer = new ArrayBuffer(byteString.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([uint8Array], { type: mimeType });
+
+      await navigator.clipboard.write([
+        new ClipboardItem({ [mimeType]: blob })
+      ]);
+
+      ElMessage.success("图片已复制 ✅（可直接粘贴到微信或聊天框）");
+      return;
+    }
+  } catch (err) {
+    console.warn("Clipboard API 复制失败，回退到 execCommand 模式:", err);
+  }
+
+  // ------------------------
+  // 兼容旧浏览器：使用 execCommand(copy)
+  // ------------------------
+  let wrapper = document.getElementById("copyWrapper");
+  if (!wrapper) {
+    wrapper = document.createElement("div");
+    wrapper.id = "copyWrapper";
+    wrapper.contentEditable = true;
+    wrapper.style.position = "fixed";
+    wrapper.style.left = "-9999px";
+    wrapper.style.top = "-9999px";
+    document.body.appendChild(wrapper);
+  }
+
+  wrapper.innerHTML = "";
+  const img = document.createElement("img");
+  img.src = base64Data;
+  wrapper.appendChild(img);
+
+  const range = document.createRange();
+  range.selectNode(img);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  try {
+    const success = document.execCommand("copy");
+    if (success) {
+      ElMessage.success("图片已复制 ✅（请尝试粘贴到微信）");
+    } else {
+      ElMessage.error("复制失败 ❌");
+    }
+  } catch (err) {
+    console.error(err);
+    ElMessage.error("浏览器不支持复制图片 ❌");
+  }
+
+  sel.removeAllRanges();
+};
 // 生成 GIF 表情包上传接口调用
 const upload = () => {
   // 验证参数合法性
@@ -134,8 +209,8 @@ const upload = () => {
   };
 
   // 发起上传请求
-  $https('/emoji-api/emoji-png-gif-make', "post", params, 2, {}).then(res => {
-    // $https('/emoji-app-api/emoji/uploadEmoji', "post", params, 2, {}).then(res => {
+  // $https('/emoji-api/emoji-png-gif-make', "post", params, 2, {}).then(res => {
+    $https('/emoji-app-api/emoji/uploadEmoji', "post", params, 2, {}).then(res => {
     if (res.data.code === 200) {
       gifUrl.value = res.data.data;  // 成功生成 gif，保存链接
     } else {
@@ -234,6 +309,7 @@ const upload = () => {
           <el-option label="走过来踢**素材(2个图片)" value="15.gif"></el-option>
           <el-option label="三人行必有**素材(3个图片)" value="16.gif"></el-option>
           <el-option label="抽打小学生素材(2个图片)" value="17.gif"></el-option>
+          <el-option label="坐撅" value="18.gif"></el-option>
         </el-select>
       </el-form-item>
     </div>
@@ -255,6 +331,7 @@ const upload = () => {
       <h4>生成的表情包 GIF：</h4>
       <el-image :src="gifUrl" style="width: 150px; display: block; margin: 0 auto;box-shadow: 0 0 10px rgba(64, 158, 255, 0.6);" />
       <div style="text-align: center; margin-top: 10px;">
+        <el-button type="success" @click="copyImage(gifUrl)">复制内容(能复制gif到剪贴板的按钮)</el-button>
         <a :href="gifUrl" :download="'表情包.gif'">
           <el-button type="primary">下载 GIF</el-button>
         </a>
